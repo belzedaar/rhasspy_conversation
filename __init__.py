@@ -12,8 +12,11 @@ from abc import abstractmethod
 
 async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     """Initialize your integration."""
-    conversation.async_set_agent(hass, RhasspyConversationAgent())
 
+    return True
+
+async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
+    conversation.async_set_agent(hass, entry, RhasspyConversationAgent())
     return True
 
 class RhasspyConversationAgent(agent.AbstractConversationAgent):
