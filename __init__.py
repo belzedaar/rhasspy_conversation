@@ -8,6 +8,8 @@ from homeassistant.helpers.typing import ConfigType
 from homeassistant.components.conversation import agent
 from homeassistant.components import conversation
 
+from abc import abstractmethod
+
 async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     """Initialize your integration."""
     conversation.async_set_agent(hass, RhasspyConversationAgent())
