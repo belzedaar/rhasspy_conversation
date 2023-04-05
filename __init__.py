@@ -1,10 +1,11 @@
 from homeassistant.helpers import intent
+
 from homeassistant.components.conversation import agent
+from homeassistant.components import conversation
 
-
-async def async_setup(hass, config):
+async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Initialize your integration."""
-    conversation.async_set_agent(hass, RhasspyConversationAgent())
+    conversation.async_set_agent(hass, entry, RhasspyConversationAgent())
 
 
 class RhasspyConversationAgent(agent.AbstractConversationAgent):
