@@ -26,7 +26,6 @@ class RhasspyConversationAgent(agent.AbstractConversationAgent):
             "url": "https://github.com/belzedaar/rhasspy_conversation",
         }
 
-    @abstractmethod
     async def async_process(self, user_input: agent.ConversationInput) -> agent.ConversationResult:
         """Process a sentence."""
         response = intent.IntentResponse(language=user_input.language)
