@@ -55,9 +55,8 @@ class RhasspyConversationAgent(agent.AbstractConversationAgent):
         headers = {'accept': 'application/json'}
         try:
             async with session.post(url, json=user_input.text, headers=headers) as response:
-                data = await response.text()
-                _LOGGER.debug("Data: %r", data)
                 json = await response.json()
+                _LOGGER.debug("JSON: %r", json)
                 if json.intent.name == "":
                     text_response = "I don't understand your banter"
                 else:
