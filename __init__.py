@@ -52,13 +52,14 @@ class RhasspyConversationAgent(agent.AbstractConversationAgent):
         session = aiohttp_client.async_get_clientsession(self.hass)
         url = self.host + "/text-to-intent?nohass=false&outputFormat=rhasspy"
         text_response = "Sorry, Dave"
+        headers = {'accept': 'application/json'}
         try:
-            async with session.post(url, json=user_input.text) as response:
+            async with session.post(url, json=user_input.text, headers=headers) as response:
                 json = await response.json()
                 if json.intent.name == "":
                     text_response = "I don't understand your banter"
                 else:
-                    text_response = "done"
+                    text_response = "Job Done"
 
         except ClientError as err:
             _LOGGER.error("Error while intent message: %r", err)
