@@ -4,9 +4,13 @@ from functools import partial
 import logging
 
 from homeassistant.helpers import intent
+from homeassistant.helpers import aiohttp_client
 from homeassistant.helpers.typing import ConfigType
 from homeassistant.components.conversation import agent
 from homeassistant.components import conversation
+
+from aiohttp import BasicAuth, FormData
+from aiohttp.client_exceptions import ClientError
 
 from .const import DOMAIN
 
@@ -45,8 +49,22 @@ class RhasspyConversationAgent(agent.AbstractConversationAgent):
 
     async def async_process(self, user_input: agent.ConversationInput) -> agent.ConversationResult:
         """Process a sentence."""
+        session = aiohttp_client.async_get_clientsession(self.hass)
+        url = self.host + "/text-to-intent?nohass=false&outputFormat=rhasspy"
+        text_response = "Sorry, Dave"
+        try:
+            async with session.post(url, data=user_input.text) as response:
+                json = await response.json()
+                if json.intent.name == "":
+                    text_response = "I don't understand your banter"
+                else:
+                    text_response = "done"
+
+        except ClientError as err:
+            _LOGGER.error("Error while intent message: %r", err)
+
         response = intent.IntentResponse(language=user_input.language)
-        response.async_set_speech("Test response")
+        response.async_set_speech(text_response)
         return agent.ConversationResult(
             conversation_id=None,
             response=response
