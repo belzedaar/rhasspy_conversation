@@ -53,7 +53,7 @@ class RhasspyConversationAgent(agent.AbstractConversationAgent):
         url = self.host + "/text-to-intent?nohass=false&outputFormat=rhasspy"
         text_response = "Sorry, Dave"
         try:
-            async with session.post(url, data=user_input.text) as response:
+            async with session.post(url, json=user_input.text) as response:
                 json = await response.json()
                 if json.intent.name == "":
                     text_response = "I don't understand your banter"
