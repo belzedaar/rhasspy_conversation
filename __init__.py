@@ -50,7 +50,7 @@ class RhasspyConversationAgent(agent.AbstractConversationAgent):
     async def async_process(self, user_input: agent.ConversationInput) -> agent.ConversationResult:
         """Process a sentence."""
         session = aiohttp_client.async_get_clientsession(self.hass)
-        url = self.host + "/text-to-intent?nohass=false&outputFormat=rhasspy"
+        url = self.host + "/api/text-to-intent?nohass=false&outputFormat=rhasspy"
         text_response = "Sorry, Dave"
         headers = {'accept': 'application/json'}
         try:
